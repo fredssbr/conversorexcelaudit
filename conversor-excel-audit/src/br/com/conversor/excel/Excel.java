@@ -139,9 +139,9 @@ public class Excel {
 				SolicitacaoDestino solicitacaoDestino = new SolicitacaoDestino();
 				
 				if(verificaStatusValido(this.solicitacoesOrigem.get(i).getDescricao())){
-					solicitacaoDestino.setChamado(this.solicitacoesOrigem.get(i).getChamado());
+					solicitacaoDestino.setChamado("NIM110" + this.solicitacoesOrigem.get(i).getChamado());
 					solicitacaoDestino.setDataHora(this.solicitacoesOrigem.get(i).getDataHora());
-					solicitacaoDestino.setStatus(getStatusFromDescription(this.solicitacoesOrigem.get(i).getDescricao()));				
+					solicitacaoDestino.setStatus(getStatusFromDescription(this.solicitacoesOrigem.get(i).getDescricao()) + " / " + this.solicitacoesOrigem.get(i).getGrupoResponsavel());				
 					this.solicitacoesDestino.add(solicitacaoDestino);				
 				}
 			}
