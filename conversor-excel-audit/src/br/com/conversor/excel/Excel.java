@@ -137,11 +137,12 @@ public class Excel {
 				}
 				
 				SolicitacaoDestino solicitacaoDestino = new SolicitacaoDestino();
-				
+				String statusAux = "";				
 				if(verificaStatusValido(this.solicitacoesOrigem.get(i).getDescricao())){
 					solicitacaoDestino.setChamado("NIM110" + this.solicitacoesOrigem.get(i).getChamado());
 					solicitacaoDestino.setDataHora(this.solicitacoesOrigem.get(i).getDataHora());
-					solicitacaoDestino.setStatus(getStatusFromDescription(this.solicitacoesOrigem.get(i).getDescricao()) + " / " + this.solicitacoesOrigem.get(i).getGrupoResponsavel());				
+					statusAux = getStatusFromDescription(this.solicitacoesOrigem.get(i).getDescricao());
+					solicitacaoDestino.setStatus(statusAux.length() > 0 ? statusAux.concat(" / ").concat(this.solicitacoesOrigem.get(i).getGrupoResponsavel()) : statusAux);				
 					this.solicitacoesDestino.add(solicitacaoDestino);				
 				}
 			}
@@ -161,15 +162,28 @@ public class Excel {
 				status = pstatus;
 			}
 		}
-		return status;
+		return getStatusDestinoByStatusOrigem(status);
 	}
 	
 	private boolean verificaStatusValido(String pstatus){
 		boolean retorno = false;
 		if(pstatus !=null && pstatus.trim().length() > 0){
-			retorno = pstatus.startsWith(START_STRING) || pstatus.equalsIgnoreCase(STRING_ABERTO);
+			retorno = (pstatus.startsWith(START_STRING) && (pstatus.lastIndexOf("'") == pstatus.length()-2)) || pstatus.equalsIgnoreCase(STRING_ABERTO);
 		}
 		return retorno;
+	}
+	
+	private String getStatusDestinoByStatusOrigem(String pstatus){
+		String status = "";
+		if(pstatus !=null && pstatus.length() > 0){
+			for (int i = 0; i < this.prop.getStatusOrigem().length; i++) {
+				if(pstatus.equalsIgnoreCase(this.prop.getStatusOrigem()[i])){
+					status = this.prop.getStatusDestino()[i];
+					break;
+				}
+			}
+		}
+		return status;
 	}
 	
 	public List<SolicitacaoOrigem> getSolicitacoesOrigem() {
