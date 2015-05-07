@@ -139,7 +139,7 @@ public class Excel {
 				SolicitacaoDestino solicitacaoDestino = new SolicitacaoDestino();
 				String statusAux = "";				
 				if(verificaStatusValido(this.solicitacoesOrigem.get(i).getDescricao())){
-					solicitacaoDestino.setChamado("NIM110" + this.solicitacoesOrigem.get(i).getChamado());
+					solicitacaoDestino.setChamado("NIM110" + String.format("%05d", Integer.parseInt(this.solicitacoesOrigem.get(i).getChamado())));
 					solicitacaoDestino.setDataHora(this.solicitacoesOrigem.get(i).getDataHora());
 					statusAux = getStatusFromDescription(this.solicitacoesOrigem.get(i).getDescricao());
 					solicitacaoDestino.setStatus(statusAux.length() > 0 ? statusAux.concat(" / ").concat(this.solicitacoesOrigem.get(i).getGrupoResponsavel()) : statusAux);				
@@ -171,6 +171,19 @@ public class Excel {
 			retorno = (pstatus.startsWith(START_STRING) && (pstatus.lastIndexOf("'") == pstatus.length()-2)) || pstatus.equalsIgnoreCase(STRING_ABERTO);
 		}
 		return retorno;
+	}
+	
+	private String getStatusDestinoByStatusOrigem(String pstatus){
+		String status = "";
+		if(pstatus !=null && pstatus.length() > 0){
+			for (int i = 0; i < this.prop.getStatusOrigem().length; i++) {
+				if(pstatus.equalsIgnoreCase(this.prop.getStatusOrigem()[i])){
+					status = this.prop.getStatusDestino()[i];
+					break;
+				}
+			}
+		}
+		return status;
 	}
 	
 	private String getStatusDestinoByStatusOrigem(String pstatus){
@@ -262,7 +275,6 @@ public class Excel {
 	}
 
 	public static void main(String[] args) throws IOException {
-		
 	
 		JFrame f = new JFrame("Progresso.");
 		try{
