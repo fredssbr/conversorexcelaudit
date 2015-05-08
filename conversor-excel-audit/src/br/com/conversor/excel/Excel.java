@@ -186,19 +186,6 @@ public class Excel {
 		return status;
 	}
 	
-	private String getStatusDestinoByStatusOrigem(String pstatus){
-		String status = "";
-		if(pstatus !=null && pstatus.length() > 0){
-			for (int i = 0; i < this.prop.getStatusOrigem().length; i++) {
-				if(pstatus.equalsIgnoreCase(this.prop.getStatusOrigem()[i])){
-					status = this.prop.getStatusDestino()[i];
-					break;
-				}
-			}
-		}
-		return status;
-	}
-	
 	public List<SolicitacaoOrigem> getSolicitacoesOrigem() {
 		return solicitacoesOrigem;
 	}
