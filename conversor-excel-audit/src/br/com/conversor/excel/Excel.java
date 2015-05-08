@@ -139,7 +139,7 @@ public class Excel {
 				SolicitacaoDestino solicitacaoDestino = new SolicitacaoDestino();
 				String statusAux = "";				
 				if(verificaStatusValido(this.solicitacoesOrigem.get(i).getDescricao())){
-					solicitacaoDestino.setChamado("NIM110" + String.format("%05d", Integer.parseInt(this.solicitacoesOrigem.get(i).getChamado())));
+					solicitacaoDestino.setChamado("NIM110" + String.format("%06d", Integer.parseInt(this.solicitacoesOrigem.get(i).getChamado())));
 					solicitacaoDestino.setDataHora(this.solicitacoesOrigem.get(i).getDataHora());
 					statusAux = getStatusFromDescription(this.solicitacoesOrigem.get(i).getDescricao());
 					solicitacaoDestino.setStatus(statusAux.length() > 0 ? statusAux.concat(" / ").concat(this.solicitacoesOrigem.get(i).getGrupoResponsavel()) : statusAux);				
