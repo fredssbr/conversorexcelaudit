@@ -2,7 +2,7 @@ package br.com.conversor.excel;
 
 import java.util.Date;
 
-public class SolicitacaoOrigem {
+public class SolicitacaoOrigem implements Comparable<SolicitacaoOrigem>{
 
 	private String chamado;
 	private String descricao;
@@ -48,6 +48,26 @@ public class SolicitacaoOrigem {
 
 	public void setChamado(String chamado) {
 		this.chamado = chamado;
+	}
+
+	@Override
+	public int compareTo(SolicitacaoOrigem o) {
+		try {
+			Integer chamadoThis = new Integer(this.chamado);
+			Integer chamadoParam = new Integer(o.getChamado());
+			int compareChamado = chamadoThis.compareTo(chamadoParam);
+			int compareData = this.dataHora.compareTo(o.getDataHora());
+			if(compareChamado==0){
+				return compareData;
+			}else{
+				return compareChamado;
+			}
+		} catch (NumberFormatException e) {
+			return 1;
+		}catch (NullPointerException e) {
+			return 1;
+		}
+		
 	}
 
 }

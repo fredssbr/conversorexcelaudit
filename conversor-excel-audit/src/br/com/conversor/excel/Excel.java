@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -25,6 +26,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 public class Excel {
 	
@@ -62,8 +64,6 @@ public class Excel {
 			FileInputStream file = new FileInputStream(arquivo);
 			// Get the workbook instance for XLS file
 			HSSFWorkbook workbook = new HSSFWorkbook(file);
-	
-			
 			
 			for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
 				// Get sheet from the workbook
@@ -119,7 +119,10 @@ public class Excel {
 					}			
 				}			
 				
-			}
+			}			
+			
+			Collections.sort(this.solicitacoesOrigem);
+			
 			workbook.close();
 			file.close();						
 			montaListaSolicitacaoDestino();
@@ -251,6 +254,9 @@ public class Excel {
 				}
 	
 			}
+			
+			sheet.setAutoFilter(CellRangeAddress.valueOf("A1:D1"));
+			
 			//Ajusta o tamanho do texto para a coluna
 			for (int i = 0; i < this.solicitacoesDestino.size(); i++) {
 				sheet.autoSizeColumn(i);
